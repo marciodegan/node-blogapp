@@ -5,7 +5,7 @@
     const app = express()
     const admin = require("./routes/admin")
     const path = require("path")
-    // const mongoose = require('mongoose')
+    const mongoose = require('mongoose')
 
 // Configuracoes
     // Body Parser
@@ -15,7 +15,12 @@
         app.engine('handlebars', handlebars({defaultLayout: 'main'}))
         app.set('view engine', 'handlebars');
     // Mongoose
-        // em breve
+        mongoose.Promise = global.Promise;
+        mongoose.connect("mongodb://localhost/blogapp").then(() => {
+            console.log("conectado ao Mongo")
+        }).catch((err) => {
+            console.log("Erro ao se conectar:"+err)
+        })
     // Public
         app.use(express.static(path.join(__dirname,"public")))
 
